@@ -1,19 +1,33 @@
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Context } from "../store.jsx";
 
-export const Navbar = () => {
-
-	return (
-		<nav className="navbar navbar-light bg-light">
-			<div className="container">
-				<Link to="/">
-					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
-				</Link>
-				<div className="ml-auto">
-					<Link to="/demo">
-						<button className="btn btn-primary">Check the Context in action</button>
-					</Link>
-				</div>
-			</div>
-		</nav>
-	);
+const Navbar = () => {
+  const { store, actions } = useContext(Context);
+  return (
+    <nav className="navbar navbar-light bg-light px-4 mb-3">
+      <a className="navbar-brand">Star Wars</a>
+      <div className="dropdown ms-auto">
+        <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          Favorites ({store.favorites.length})
+        </button>
+        <ul className="dropdown-menu dropdown-menu-end">
+          {store.favorites.length === 0 && <li className="dropdown-item">No favorites</li>}
+          {store.favorites.map((fav, i) => (
+            <li key={i} className="dropdown-item d-flex justify-content-between align-items-center">
+              {fav.name}
+              <button
+                className="btn btn-sm text-danger"
+                onClick={() => actions.removeFavorite(fav.uid, fav.type)}
+              >
+                <i className="fas fa-trash"></i>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+  );
 };
+
+export default Navbar;
+

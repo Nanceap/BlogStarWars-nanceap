@@ -1,37 +1,93 @@
-// Import necessary hooks and components from react-router-dom and other libraries.
-import { Link, useParams } from "react-router-dom";  // To use link for navigation and useParams to get URL parameters
-import PropTypes from "prop-types";  // To define prop types for this component
-import rigoImageUrl from "../assets/img/rigo-baby.jpg"  // Import an image asset
-import useGlobalReducer from "../hooks/useGlobalReducer";  // Import a custom hook for accessing the global state
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-// Define and export the Single component which displays individual item details.
-export const Single = props => {
-  // Access the global state using the custom hook.
-  const { store } = useGlobalReducer()
+const Single = () => {
+  const params = useParams();
+  const [data, setData] = useState(null);
 
-  // Retrieve the 'theId' URL parameter using useParams hook.
-  const { theId } = useParams()
-  const singleTodo = store.todos.find(todo => todo.id === parseInt(theId));
+  const imageUrl = `https://starwars-visualguide.com/assets/img/${params.type}/${params.id}.jpg`;
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const resp = await fetch(`https://www.swapi.tech/api/${params.type}/${params.id}`);
+        const result = await resp.json();
+        setData(result.result);
+      } catch (err) {
+        console.error("Error fetching detail:", err);
+      }
+    };
+    getData();
+  }, [params.type, params.id]);
 
   return (
-    <div className="container text-center">
-      {/* Display the title of the todo element dynamically retrieved from the store using theId. */}
-      <h1 className="display-4">Todo: {singleTodo?.title}</h1>
-      <hr className="my-4" />  {/* A horizontal rule for visual separation. */}
+    <div className="container text-center text-md-start mt-5">
+      {data ? (
+        <>
+          <div className="row">
+            <div className="col-md-6 mb-4">
+              <div
+                className="bg-secondary"
+                style={{ width: "100%", height: "400px", overflow: "hidden" }}
+              >
+                <img
+                  src={imageUrl}
+                  alt={data.properties.name}
+                  className="img-fluid"
+                  style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                  onError={(e) => (e.target.style.display = "none")}
+                />
+              </div>
+            </div>
 
-      {/* A Link component acts as an anchor tag but is used for client-side routing to prevent page reloads. */}
-      <Link to="/">
-        <span className="btn btn-primary btn-lg" href="#" role="button">
-          Back home
-        </span>
-      </Link>
+            <div className="col-md-6">
+              <h1>{data.properties.name}</h1>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio
+                commodi dolorum, eius amet porro fugiat? Provident autem
+                expedita blanditiis saepe tempore quos voluptas tenetur earum
+                corrupti quasi.
+              </p>
+            </div>
+          </div>
+
+          <hr className="text-danger" />
+
+          <div className="row text-center text-danger fw-bold">
+            <div className="col">
+              <p>Name</p>
+              <p className="text-dark">{data.properties.name}</p>
+            </div>
+            <div className="col">
+              <p>Birth Year</p>
+              <p className="text-dark">{data.properties.birth_year || "n/a"}</p>
+            </div>
+            <div className="col">
+              <p>Gender</p>
+              <p className="text-dark">{data.properties.gender || "n/a"}</p>
+            </div>
+            <div className="col">
+              <p>Height</p>
+              <p className="text-dark">{data.properties.height || "n/a"}</p>
+            </div>
+            <div className="col">
+              <p>Skin Color</p>
+              <p className="text-dark">{data.properties.skin_color || "n/a"}</p>
+            </div>
+            <div className="col">
+              <p>Eye Color</p>
+              <p className="text-dark">{data.properties.eye_color || "n/a"}</p>
+            </div>
+          </div>
+        </>
+      ) : (
+        <p className="text-center text-muted">Loading...</p>
+      )}
     </div>
   );
 };
 
-// Use PropTypes to validate the props passed to this component, ensuring reliable behavior.
-Single.propTypes = {
-  // Although 'match' prop is defined here, it is not used in the component.
-  // Consider removing or using it as needed.
-  match: PropTypes.object
-};
+export default Single;
+
+
+
