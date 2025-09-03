@@ -1,10 +1,80 @@
+/* Base */
 body {
-  background-color: #f8f9fa;
+  background-color: #0f0f0f; /* fondo oscuro */
+  color: #e6e6e6;
 }
+
+/* Título grande estilo hero */
+.display-title {
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  line-height: 1.05;
+}
+
+/* Tarjetas dark */
 .card {
   margin-bottom: 16px;
 }
-.card-title {
-  font-weight: bold;
+.card--dark {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  overflow: hidden;
+  color: #e6e6e6;
+  transition: transform .12s ease, box-shadow .12s ease;
 }
+.card--dark:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0,0,0,.35);
+}
+.card__thumb {
+  height: 180px;
+}
+@media (min-width: 768px) {
+  .card__thumb { height: 220px; }
+}
+.card__thumb--list {
+  width: 260px;
+  height: 150px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Botones y controles */
+.btn-outline-light {
+  border-color: #3a3a3a;
+}
+.btn-outline-light:hover {
+  background: #e6e6e6;
+  color: #111;
+}
+
+/* Search input oscuro */
+.form-control-dark {
+  background: #151515;
+  border: 1px solid #2a2a2a;
+  color: #e6e6e6;
+}
+.form-control-dark::placeholder {
+  color: #9a9a9a;
+}
+
+/* Navbar light override si es necesario mantener claro
+   (si prefieres navbar oscuro, cámbialo a bg-dark text-light) */
+.navbar.bg-light {
+  background-color: #121212 !important;
+  border-bottom: 1px solid #2a2a2a;
+}
+.navbar .navbar-brand,
+.navbar .btn,
+.navbar .dropdown-toggle {
+  color: #e6e6e6;
+}
+.dropdown-menu {
+  background: #1a1a1a;
+  border-color: #2a2a2a;
+}
+.dropdown-item { color: #e6e6e6; }
+.dropdown-item:hover { background: #2a2a2a; }
+
 

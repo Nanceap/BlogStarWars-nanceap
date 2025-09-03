@@ -2,32 +2,44 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store.jsx";
 
-const Card = ({ item, type }) => {
+const typeToImageDir = {
+  people: "characters",
+  planets: "planets",
+  starships: "starships",
+  vehicles: "vehicles",
+  species: "species",
+  films: "films",
+};
+
+const Card = ({ item, type, compact = false }) => {
   const { actions } = useContext(Context);
   const navigate = useNavigate();
 
-  const imageUrl = `https://starwars-visualguide.com/assets/img/${type}/${item.uid}.jpg`;
+  const imgDir = typeToImageDir[type] || type;
+  const imageUrl = `https://starwars-visualguide.com/assets/img/${imgDir}/${item.uid}.jpg`;
 
   return (
-    <div className="card mx-2" style={{ width: "18rem", minWidth: "18rem" }}>
-      <div className="card-img-top bg-secondary" style={{ height: "200px", overflow: "hidden" }}>
+    <div className={`card card--dark ${compact ? "card--list" : ""}`}>
+      <div className="card-img-top bg-secondary card__thumb">
         <img
           src={imageUrl}
           alt={item.name}
-          style={{ objectFit: "cover", width: "100%", height: "100%", display: "block" }}
-          onError={(e) => {
-            e.target.style.display = "none";
-          }}
+          className="w-100 h-100"
+          style={{ objectFit: "cover", display: "block" }}
+          onError={(e) => { e.target.style.display = "none"; }}
         />
       </div>
 
       <div className="card-body d-flex flex-column justify-content-between">
-        <div>
-          <h5 className="card-title">{item.name}</h5>
-          <p className="card-text">ID: {item.uid}</p>
+        <div className="mb-2">
+          <h5 className="card-title mb-2">{item.name}</h5>
+          <div className="card-meta small text-muted">
+            <span className="badge bg-secondary me-2 text-uppercase">{type}</span>
+            <span>ID #{item.uid}</span>
+          </div>
         </div>
 
-        <div className="d-flex justify-content-between align-items-center mt-3">
+        <div className="d-flex justify-content-between align-items-center mt-2">
           <button
             className="btn btn-sm btn-primary"
             onClick={() => navigate(`/details/${type}/${item.uid}`)}
@@ -37,6 +49,7 @@ const Card = ({ item, type }) => {
           <button
             className="btn btn-sm btn-outline-danger"
             onClick={() => actions.addFavorite({ ...item, type })}
+            title="Add to favorites"
           >
             <i className="far fa-heart"></i>
           </button>
@@ -47,5 +60,6 @@ const Card = ({ item, type }) => {
 };
 
 export default Card;
+
 
 

@@ -5,7 +5,8 @@ const Navbar = () => {
   const { store, actions } = useContext(Context);
   return (
     <nav className="navbar navbar-light bg-light px-4 mb-3">
-      <a className="navbar-brand">Star Wars</a>
+      <a className="navbar-brand fw-bold">Star Wars</a>
+
       <div className="dropdown ms-auto">
         <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
           Favorites ({store.favorites.length})
@@ -30,4 +31,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 
