@@ -77,4 +77,20 @@ body {
 .dropdown-item { color: #e6e6e6; }
 .dropdown-item:hover { background: #2a2a2a; }
 
+/* Tarjeta con imagen */
+.card__thumb {
+  height: 180px;
+  background: #222;
+}
+@media (min-width: 768px) {
+  .card__thumb {
+    height: 220px;
+  }
+}
+.card__thumb--list {
+  width: 260px;
+  height: 150px;
+  border-radius: 12px;
+  overflow: hidden;
+}
 

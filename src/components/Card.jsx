@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store.jsx";
 
@@ -14,22 +14,31 @@ const typeToImageDir = {
 const Card = ({ item, type, compact = false }) => {
   const { actions } = useContext(Context);
   const navigate = useNavigate();
+  const [imgError, setImgError] = useState(false);
 
   const imgDir = typeToImageDir[type] || type;
   const imageUrl = `https://starwars-visualguide.com/assets/img/${imgDir}/${item.uid}.jpg`;
 
   return (
     <div className={`card card--dark ${compact ? "card--list" : ""}`}>
-      <div className="card-img-top bg-secondary card__thumb">
-        <img
-          src={imageUrl}
-          alt={item.name}
-          className="w-100 h-100"
-          style={{ objectFit: "cover", display: "block" }}
-          onError={(e) => { e.target.style.display = "none"; }}
-        />
+      {/* Imagen / Placeholder */}
+      <div className={`card__thumb ${compact ? "card__thumb--list" : ""}`}>
+        {!imgError ? (
+          <img
+            src={imageUrl}
+            alt={item.name}
+            className="w-100 h-100"
+            style={{ objectFit: "cover", display: "block" }}
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="d-flex justify-content-center align-items-center h-100 text-muted bg-secondary">
+            <i className="fas fa-image fa-2x"></i>
+          </div>
+        )}
       </div>
 
+      {/* Contenido */}
       <div className="card-body d-flex flex-column justify-content-between">
         <div className="mb-2">
           <h5 className="card-title mb-2">{item.name}</h5>
@@ -60,6 +69,7 @@ const Card = ({ item, type, compact = false }) => {
 };
 
 export default Card;
+
 
 
 
