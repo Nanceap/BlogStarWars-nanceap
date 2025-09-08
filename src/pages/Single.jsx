@@ -1,11 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
+
+const FIELD_MAP = {
+  people: ["name", "birth_year", "gender", "height", "skin_color", "eye_color", "hair_color", "mass"],
+  planets: ["name", "climate", "terrain", "population", "gravity", "diameter", "rotation_period", "orbital_period"],
+  starships: ["name", "model", "manufacturer", "starship_class", "cost_in_credits", "crew", "passengers", "hyperdrive_rating"],
+  vehicles: ["name", "model", "manufacturer", "vehicle_class", "cost_in_credits", "crew", "passengers", "max_atmosphering_speed"],
+  species: ["name", "classification", "designation", "language", "average_height", "skin_colors", "hair_colors", "eye_colors"],
+  films: ["title", "episode_id", "director", "producer", "release_date"],
+};
+
+const typeToImageDir = {
+  people: "characters",
+  planets: "planets",
+  starships: "starships",
+  vehicles: "vehicles",
+  species: "species",
+  films: "films",
+};
+
+const TYPE_LABEL = {
+  people: "Characters",
+  planets: "Planets",
+  starships: "Starships",
+  vehicles: "Vehicles",
+  species: "Species",
+  films: "Films",
+};
 
 const Single = () => {
   const params = useParams();
   const [data, setData] = useState(null);
 
-  const imageUrl = `https://starwars-visualguide.com/assets/img/${params.type}/${params.id}.jpg`;
+  const imgDir = typeToImageDir[params.type] || params.type;
+  const imageUrl = `https://starwars-visualguide.com/assets/img/${imgDir}/${params.id}.jpg`;
 
   useEffect(() => {
     const getData = async () => {
@@ -17,8 +45,16 @@ const Single = () => {
         console.error("Error fetching detail:", err);
       }
     };
+    setData(null);
     getData();
   }, [params.type, params.id]);
+
+  const fields = FIELD_MAP[params.type] || [];
+
+  const titleText = useMemo(() => {
+    if (!data?.properties) return "";
+    return data.properties.name || data.properties.title || "Details";
+  }, [data]);
 
   return (
     <div className="container text-center text-md-start mt-5">
@@ -26,13 +62,10 @@ const Single = () => {
         <>
           <div className="row">
             <div className="col-md-6 mb-4">
-              <div
-                className="bg-secondary"
-                style={{ width: "100%", height: "400px", overflow: "hidden" }}
-              >
+              <div className="bg-secondary" style={{ width: "100%", height: "400px", overflow: "hidden" }}>
                 <img
                   src={imageUrl}
-                  alt={data.properties.name}
+                  alt={titleText}
                   className="img-fluid"
                   style={{ objectFit: "cover", width: "100%", height: "100%" }}
                   onError={(e) => (e.target.style.display = "none")}
@@ -41,43 +74,35 @@ const Single = () => {
             </div>
 
             <div className="col-md-6">
-              <h1>{data.properties.name}</h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio
-                commodi dolorum, eius amet porro fugiat? Provident autem
-                expedita blanditiis saepe tempore quos voluptas tenetur earum
-                corrupti quasi.
+              <div className="d-flex align-items-center gap-2 mb-2">
+                <span className="badge bg-neutral text-uppercase">{TYPE_LABEL[params.type] || params.type}</span>
+                <span className="text-muted small">ID #{params.id}</span>
+              </div>
+              <h1 className="mb-2">{titleText}</h1>
+
+              <p className="text-muted">
+                {data.description || "A long time ago in a galaxy far, far away..."}
               </p>
+
+              <button className="btn btn-ghost btn-pill mt-2" onClick={() => history.back()}>
+                ← Back
+              </button>
             </div>
           </div>
 
           <hr className="text-danger" />
 
           <div className="row text-center text-danger fw-bold">
-            <div className="col">
-              <p>Name</p>
-              <p className="text-dark">{data.properties.name}</p>
-            </div>
-            <div className="col">
-              <p>Birth Year</p>
-              <p className="text-dark">{data.properties.birth_year || "n/a"}</p>
-            </div>
-            <div className="col">
-              <p>Gender</p>
-              <p className="text-dark">{data.properties.gender || "n/a"}</p>
-            </div>
-            <div className="col">
-              <p>Height</p>
-              <p className="text-dark">{data.properties.height || "n/a"}</p>
-            </div>
-            <div className="col">
-              <p>Skin Color</p>
-              <p className="text-dark">{data.properties.skin_color || "n/a"}</p>
-            </div>
-            <div className="col">
-              <p>Eye Color</p>
-              <p className="text-dark">{data.properties.eye_color || "n/a"}</p>
-            </div>
+            {fields.map((key) => {
+              const label = key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+              const value = data.properties[key];
+              return (
+                <div className="col-6 col-md-4 col-lg-2 mb-3" key={key}>
+                  <p className="mb-1">{label}</p>
+                  <p className="text-dark mb-0">{value ?? "n/a"}</p>
+                </div>
+              );
+            })}
           </div>
         </>
       ) : (
@@ -88,6 +113,7 @@ const Single = () => {
 };
 
 export default Single;
+
 
 
 
