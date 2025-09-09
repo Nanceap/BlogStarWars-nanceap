@@ -114,11 +114,9 @@ body {
 /* Dark base */
 body { background-color: #0f0f0f; color: #e6e6e6; }
 
-/* Titles */
 .display-title { font-weight: 800; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.05; }
 .section-title { font-weight: 700; margin-top: 1rem; }
 
-/* Cards */
 .card { margin-bottom: 16px; }
 .card--dark {
   background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; overflow: hidden;
@@ -129,12 +127,10 @@ body { background-color: #0f0f0f; color: #e6e6e6; }
 @media (min-width: 768px) { .card__thumb { height: 220px; } }
 .card__thumb--list { width: 260px; height: 150px; border-radius: 12px; overflow: hidden; }
 
-/* Neutral badge */
 .badge.bg-neutral {
   background: #2a2a2a; color: #cfcfcf; border: 1px solid #3a3a3a;
 }
 
-/* Pills + modern transparent buttons (not blue) */
 .btn-pill { border-radius: 999px; padding: 0.45rem 0.9rem; font-weight: 600; }
 
 .btn-glass {
@@ -157,18 +153,15 @@ body { background-color: #0f0f0f; color: #e6e6e6; }
 .btn-ghost:hover { background: rgba(255,255,255,0.06); border-color: #5a5a5a; transform: translateY(-1px); }
 .btn-ghost:active { transform: translateY(0); }
 
-/* Inputs oscuros (si usas buscador) */
 .form-control-dark { background: #151515; border: 1px solid #2a2a2a; color: #e6e6e6; }
 .form-control-dark::placeholder { color: #9a9a9a; }
 
-/* Navbar dark look */
 .navbar.bg-light { background-color: #121212 !important; border-bottom: 1px solid #2a2a2a; }
 .navbar .navbar-brand, .navbar .btn, .navbar .dropdown-toggle { color: #e6e6e6; }
 .dropdown-menu { background: #1a1a1a; border-color: #2a2a2a; }
 .dropdown-item { color: #e6e6e6; }
 .dropdown-item:hover { background: #2a2a2a; }
 
-/* Estilo base de botones en toda la app */
 .btn-pill {
   border-radius: 999px;
   padding: 0.45rem 0.9rem;
@@ -177,7 +170,7 @@ body { background-color: #0f0f0f; color: #e6e6e6; }
   transition: all 0.15s ease;
 }
 
-/* Variante principal: glass */
+
 .btn-glass {
   background: rgba(255, 255, 255, 0.06);
   color: #f3f3f3;
@@ -194,7 +187,6 @@ body { background-color: #0f0f0f; color: #e6e6e6; }
   transform: translateY(0);
 }
 
-/* Variante secundaria: ghost */
 .btn-ghost {
   background: transparent;
   color: #e6e6e6;
@@ -209,7 +201,7 @@ body { background-color: #0f0f0f; color: #e6e6e6; }
   transform: translateY(0);
 }
 
-/* Dropdown menú oscuro */
+
 .dropdown-menu {
   background: #1a1a1a;
   border-color: #2a2a2a;
@@ -221,10 +213,22 @@ body { background-color: #0f0f0f; color: #e6e6e6; }
   background: #2a2a2a;
 }
 
-/* Recorte de 3 líneas con “…” para el texto de descripción */
 .clamp-3 {
   display: -webkit-box;
-  -webkit-line-clamp: 3;       /* número de líneas visibles */
+  -webkit-line-clamp: 3;      
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+#heroCarousel img { border-radius: 20px; }
+.carousel-caption { bottom: 2rem; }
+
+#heroCarousel img {
+  border-radius: 20px;
+}
+
+.carousel-caption {
+  bottom: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
 }
