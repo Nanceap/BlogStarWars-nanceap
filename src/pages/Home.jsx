@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store.jsx";
 import Card from "../components/Card.jsx";
-import HeroCarousel from "../components/HeroCarousel.jsx";
+import HeroAccordion from "../components/HeroAccordion.jsx";
 
 const Home = () => {
   const { store, actions } = useContext(Context);
@@ -10,7 +10,8 @@ const Home = () => {
 
   return (
     <div className="container-fluid px-0">
-      <HeroCarousel />
+      {/* Hero estilo acordeón */}
+      <HeroAccordion />
 
       <div className="container py-4">
         <h2 className="section-title mb-2">Characters</h2>
@@ -21,14 +22,14 @@ const Home = () => {
             </div>
           ))}
         </div>
-
-      
+        {/* ... resto de secciones */}
       </div>
     </div>
   );
 };
 
 export default Home;
+
 
 
 

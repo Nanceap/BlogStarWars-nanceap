@@ -232,3 +232,239 @@ body { background-color: #0f0f0f; color: #e6e6e6; }
   max-width: 600px;
   margin: 0 auto;
 }
+
+.hero-accordion {
+  display: flex;
+  height: 70vh;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.hero-slide {
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: flex 0.6s ease;
+  cursor: pointer;
+}
+
+.hero-slide.active {
+  flex: 5; /* se expande el slide activo */
+}
+
+.hero-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fff;
+  transition: all 0.4s ease;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.hero-overlay h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.hero-overlay p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.hero-accordion {
+  display: flex;
+  height: 70vh;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.hero-slide {
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: flex 0.6s ease;
+  cursor: pointer;
+}
+
+.hero-slide.active {
+  flex: 5; /* se expande el slide activo */
+}
+
+.hero-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  transition: all 0.4s ease;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.hero-overlay h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.hero-overlay p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* ---------- Hero Accordion ---------- */
+.hero-accordion {
+  display: flex;
+  height: 70vh;
+  border-radius: 20px;
+  overflow: hidden;
+  gap: 2px; /* pequeña separación para dar profundidad */
+  background: #0e0e0e;
+}
+
+.hero-slide {
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: flex 0.6s ease, filter 0.3s ease, transform 0.3s ease,
+              opacity 0.3s ease;
+  cursor: pointer;
+  filter: blur(1.2px) saturate(0.8) brightness(0.75);
+  opacity: 0.85;
+}
+
+/* La activa se expande y se ve nítida */
+.hero-slide.active {
+  flex: 5;
+  filter: none;         /* nítido */
+  opacity: 1;
+  transform: scale(1.005);
+}
+
+/* Overlay con blur tipo glass */
+.hero-overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 1rem 1.25rem;
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(10px) saturate(110%);
+  -webkit-backdrop-filter: blur(10px) saturate(110%);
+  color: #fff;
+  transition: background 0.3s ease;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.hero-title {
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  margin: 0 0 0.25rem;
+}
+.hero-year {
+  font-weight: 600;
+  opacity: 0.9;
+}
+.hero-plot {
+  font-size: clamp(0.85rem, 1.8vw, 1rem);
+  margin: 0;
+  color: rgba(255,255,255,0.92);
+}
+
+/* Responsivo */
+@media (max-width: 992px) {
+  .hero-accordion { height: 58vh; }
+}
+@media (max-width: 576px) {
+  .hero-accordion { height: 50vh; }
+  .hero-slide.active { flex: 4; }
+}
+
+/* Respeta usuarios con reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide, .hero-slide.active {
+    transition: none;
+  }
+}
+
+.hero-accordion {
+  display: flex;
+  height: 70vh;
+  border-radius: 20px;
+  overflow: hidden;
+  gap: 2px;
+  background: #0e0e0e;
+}
+
+.hero-slide {
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: flex 0.6s ease, filter 0.3s ease, transform 0.3s ease,
+              opacity 0.3s ease;
+  cursor: pointer;
+  filter: blur(1.2px) saturate(0.8) brightness(0.75);
+  opacity: 0.85;
+}
+
+.hero-slide.active {
+  flex: 5;
+  filter: none;
+  opacity: 1;
+  transform: scale(1.005);
+}
+
+/* Overlay aparece solo al click */
+.hero-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem 1.25rem;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(10px) saturate(110%);
+  -webkit-backdrop-filter: blur(10px) saturate(110%);
+  color: #fff;
+  transition: all 0.4s ease;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  animation: fadeInUp 0.4s ease;
+}
+
+.hero-title {
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+}
+
+.hero-year {
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.hero-plot {
+  font-size: clamp(0.85rem, 1.8vw, 1rem);
+  margin: 0;
+  color: rgba(255,255,255,0.92);
+}
+
+/* Animación suave */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
