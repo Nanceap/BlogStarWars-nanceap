@@ -6,9 +6,11 @@ import ScrollToTop from "../components/ScrollToTop.jsx";
 const Layout = () => (
   <>
     <Navbar />
+    <div className="nav-spacer" />
     <ScrollToTop />
     <Outlet />
   </>
 );
 
 export default Layout;
+

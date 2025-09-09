@@ -1,35 +1,37 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Context } from "../store.jsx";
-import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { store, actions } = useContext(Context);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [location.pathname]);
 
   return (
-    <nav className="navbar navbar-dark bg-dark px-4 mb-3">
-      <Link to="/" className="navbar-brand fw-bold">
-        Star Wars
-      </Link>
+    <nav className={`navbar navbar--glass ${scrolled ? "is-scrolled" : ""}`}>
+      <div className="container d-flex align-items-center">
+        {/* Brand */}
+        <Link to="/" className="navbar-brand fw-bold">Star Wars</Link>
 
-      <div className="d-flex align-items-center gap-2 ms-auto">
-        {/* Botones de navegación */}
-        <Link to="/" className="btn btn-glass btn-pill">
-          Home
-        </Link>
-        <Link to="/details/people/1" className="btn btn-glass btn-pill">
-          Characters
-        </Link>
-        <Link to="/details/planets/1" className="btn btn-glass btn-pill">
-          Planets
-        </Link>
-        <Link to="/details/starships/9" className="btn btn-glass btn-pill">
-          Starships
-        </Link>
+        {/* Navegación primaria */}
+        <div className="d-none d-md-flex align-items-center gap-2 ms-3">
+          <Link to="/" className="btn btn-ghost btn-pill">Home</Link>
+          <Link to="/details/people/1" className="btn btn-ghost btn-pill">Characters</Link>
+          <Link to="/details/planets/1" className="btn btn-ghost btn-pill">Planets</Link>
+          <Link to="/details/starships/9" className="btn btn-ghost btn-pill">Starships</Link>
+        </div>
 
-        {/* Dropdown favoritos */}
-        <div className="dropdown">
+        {/* Fav dropdown */}
+        <div className="ms-auto dropdown">
           <button
-            className="btn btn-ghost btn-pill dropdown-toggle"
+            className="btn btn-glass btn-pill dropdown-toggle"
             type="button"
             data-bs-toggle="dropdown"
           >
@@ -61,6 +63,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 
 
 

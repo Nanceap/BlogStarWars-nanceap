@@ -463,8 +463,201 @@ body { background-color: #0f0f0f; color: #e6e6e6; }
   color: rgba(255,255,255,0.92);
 }
 
-/* Animación suave */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+.clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ========== NAVBAR GLASS STICKY (estilo Apple) ========== */
+
+:root {
+  --nav-height: 64px;
+  --glass-bg: rgba(18, 18, 18, 0.35);      /* más transparente en top */
+  --glass-bg-scrolled: rgba(18, 18, 18, 0.68); /* más sólido al scroll */
+  --glass-border: rgba(255, 255, 255, 0.12);
+}
+
+.navbar--glass {
+  position: sticky;          /* se pega al top mientras haces scroll */
+  top: 0;
+  z-index: 1050;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  background: var(--glass-bg);
+  border-bottom: 1px solid var(--glass-border);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.navbar--glass.is-scrolled {
+  background: var(--glass-bg-scrolled);
+  border-bottom-color: rgba(255, 255, 255, 0.18);
+}
+
+.navbar--glass .navbar-brand {
+  color: #f0f0f0;
+  text-decoration: none;
+  font-size: 1.1rem;
+  letter-spacing: .2px;
+}
+
+/* separador para compensar la altura de navbar fija en el flujo */
+.nav-spacer {
+  height: var(--nav-height);
+}
+
+/* Dropdown en modo dark-glass */
+.dropdown-menu {
+  background: rgba(20, 20, 20, 0.9);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.dropdown-item { color: #e8e8e8; }
+.dropdown-item:hover { background: rgba(255,255,255,0.06); }
+
+/* Botones globales (ya definidos en tu app, los reitero por si acaso) */
+.btn-pill { border-radius: 999px; padding: .45rem .9rem; font-weight: 600; }
+.btn-glass {
+  background: rgba(255,255,255,0.06);
+  color: #f3f3f3;
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background .15s ease, transform .1s ease, border-color .15s ease;
+}
+.btn-glass:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.18); transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent;
+  color: #e6e6e6;
+  border: 1px solid #3a3a3a;
+  transition: background .15s ease, border-color .15s ease, transform .1s ease;
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.06); border-color: #5a5a5a; transform: translateY(-1px); }
+
+
+/* Contenedor con ratio 16:9 para evitar saltos de layout */
+.ratio-16x9 {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
+.img-wrapper > img,
+.img-wrapper > .img-fallback,
+.img-wrapper > .img-skeleton {
+  position: absolute;
+  inset: 0;
+}
+
+/* Imagen cover + transición */
+.img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter .25s ease, opacity .25s ease, transform .25s ease;
+}
+
+/* Blur-up inicial */
+.img-blur {
+  filter: blur(8px) brightness(.9);
+}
+
+/* Skeleton shimmer */
+.img-skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+  animation: shimmer 1.2s infinite;
+  border-radius: 16px;
+}
+@keyframes shimmer {
+  0% { transform: translateX(-40%); }
+  100% { transform: translateX(40%); }
+}
+
+/* Fallback cuando no hay imagen */
+.img-fallback {
+  display: grid;
+  place-items: center;
+  color: #bbb;
+  background: #1a1a1a;
+  border: 1px dashed #2a2a2a;
+  border-radius: 16px;
+  font-size: 2rem;
+}
+
+/* Ajustes visuales */
+.img-wrapper {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* evita reflow al cargar img */
+.ratio-16x9 { position: relative; width: 100%; padding-top: 56.25%; }
+.img-wrapper > * { position: absolute; inset: 0; }
+.img-cover { width: 100%; height: 100%; object-fit: cover; transition: filter .25s ease, opacity .25s ease; }
+.img-blur { filter: blur(8px) brightness(.9); }
+.img-skeleton { background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.12), rgba(255,255,255,0.06)); animation: shimmer 1.2s infinite; border-radius: 16px; }
+@keyframes shimmer { 0% { transform: translateX(-40%);} 100% { transform: translateX(40%);} }
+.img-fallback { display: grid; place-items: center; color: #bbb; background: #1a1a1a; border: 1px dashed #2a2a2a; border-radius: 16px; font-size: 2rem; }
+
+
+/* Descripciones y textos claros */
+.text-light,
+.card .text-light,
+.hero-overlay p,
+.description-text {
+  color: rgba(255, 255, 255, 0.92) !important;
+  font-weight: 400;
+}
+
+/* Ratios + helpers de imagen (para SmartImage y Cards) */
+.ratio-16x9 { position: relative; width: 100%; padding-top: 56.25%; }
+.img-wrapper > img,
+.img-wrapper > .img-fallback,
+.img-wrapper > .img-skeleton,
+.card__thumb img {
+  position: absolute; inset: 0;
+}
+.img-cover { width: 100%; height: 100%; object-fit: cover; transition: filter .25s ease, opacity .25s ease; }
+.img-blur { filter: blur(8px) brightness(.9); }
+.img-skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+  animation: shimmer 1.2s infinite; border-radius: 16px;
+}
+@keyframes shimmer { 0% { transform: translateX(-40%);} 100% { transform: translateX(40%);} }
+.img-fallback { display: grid; place-items: center; color: #bbb; background: #1a1a1a; border: 1px dashed #2a2a2a; border-radius: 16px; font-size: 2rem; }
+
+/* Card dark */
+.card--dark { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; overflow: hidden; color: #e6e6e6; }
+.card--dark:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(0,0,0,.35); }
+
+/* Badges y botones */
+.badge.bg-neutral { background: #2a2a2a; color: #cfcfcf; border: 1px solid #3a3a3a; }
+.btn-pill { border-radius: 999px; padding: .45rem .9rem; font-weight: 600; }
+.btn-glass {
+  background: rgba(255,255,255,0.06); color: #f3f3f3; border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  transition: background .15s ease, transform .1s ease, border-color .15s ease;
+}
+.btn-glass:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.18); transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: #e6e6e6; border: 1px solid #3a3a3a; }
+.btn-ghost:hover { background: rgba(255,255,255,0.06); border-color: #5a5a5a; transform: translateY(-1px); }
+
+/* Inputs oscuros */
+.form-control-dark { background: #151515; border: 1px solid #2a2a2a; color: #e6e6e6; }
+.form-control-dark::placeholder { color: #9a9a9a; }
+
+/* Hero Accordion (resumen de los estilos principales) */
+.hero-accordion { display: flex; height: 70vh; border-radius: 20px; overflow: hidden; gap: 2px; background: #0e0e0e; }
+.hero-slide { flex: 1; background-size: cover; background-position: center; position: relative; transition: flex .6s ease, filter .3s ease, transform .3s ease, opacity .3s ease; cursor: pointer; filter: blur(1.2px) saturate(.8) brightness(.75); opacity: .85; }
+.hero-slide.active { flex: 5; filter: none; opacity: 1; transform: scale(1.005); }
+.hero-overlay { position: absolute; inset: auto 0 0 0; padding: 1rem 1.25rem; background: rgba(0,0,0,.35); backdrop-filter: blur(10px) saturate(110%); -webkit-backdrop-filter: blur(10px) saturate(110%); color: #fff; border-top-left-radius: 12px; border-top-right-radius: 12px; }
+

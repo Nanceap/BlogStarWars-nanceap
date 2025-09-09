@@ -1,4 +1,6 @@
 import React, { useState, createContext } from "react";
+import { buildDbMediaMap } from "./services/databank"; 
+
 export const Context = createContext(null);
 
 const injectContext = (PassedComponent) => {
@@ -10,14 +12,22 @@ const injectContext = (PassedComponent) => {
       vehicles: [],
       species: [],
       films: [],
-      favorites: []
+      favorites: [],
+      mediaMaps: {
+        people: new Map(),
+        planets: new Map(),
+        starships: new Map(),
+        vehicles: new Map(),
+        species: new Map(),
+        films: new Map(),
+      },
     });
 
     const actions = {
       loadInitialData: async () => {
         try {
+          // Datos base de SWAPI (listado con uid)
           const endpoints = ["people","planets","starships","vehicles","species","films"];
-
           const responses = await Promise.all(
             endpoints.map((e) => fetch(`https://www.swapi.tech/api/${e}?page=1&limit=50`))
           );
@@ -41,8 +51,29 @@ const injectContext = (PassedComponent) => {
             species: data.species || [],
             films: data.films || [],
           }));
+
+          // Media maps desde Databank API
+          const [mmPeople, mmPlanets, mmVehicles, mmSpecies] = await Promise.all([
+            buildDbMediaMap("people",   10, 20), 
+            buildDbMediaMap("planets",  10, 20),
+            buildDbMediaMap("vehicles", 10, 20),
+            buildDbMediaMap("species",  10, 20),
+          ]);
+
+          setStore((prev) => ({
+            ...prev,
+            mediaMaps: {
+              ...prev.mediaMaps,
+              people: mmPeople,
+              planets: mmPlanets,
+              starships: mmVehicles, 
+              vehicles: mmVehicles,
+              species: mmSpecies,
+            },
+          }));
+
         } catch (err) {
-          console.error(err);
+          console.error("Error loading data:", err);
         }
       },
 
@@ -75,6 +106,7 @@ const injectContext = (PassedComponent) => {
 };
 
 export default injectContext;
+
 
 
 
